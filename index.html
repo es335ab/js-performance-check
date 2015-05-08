@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>performane-check</title>
+</head>
+<body>
+
+
+<script src='./js/jquery.js'></script>
+<script src='./js/mockjax.js'></script>
+<script src='./js/api.js'></script>
+
+<!-- ここでパフォーマンスをチェック -->
+<!-- Angularでやる場合：http://dev.classmethod.jp/client-side/javascript/angularjs-q-promise/ -->
+<script>
+
+//パフォーマンスチェックを無効にするときはコメントアウトする
+//console.time = function () {};
+
+
+(function(){
+  console.time('measurement of nanika');
+
+  var def = $.Deferred();
+  var num;
+
+  for (var i = 0; i < 10000; i++) {
+    num ++;
+  }
+
+  $.ajax({
+    url: '/api/v1/nanika',
+    type: 'GET',
+    dataType : 'json'
+  }).then(function(){
+    console.log('success');
+    console.timeEnd('measurement of nanika'); // 計測終了(成功)
+  },function(){
+    console.log('error');
+    console.timeEnd('measurement of nanika'); // 計測終了(失敗)
+  });
+
+  return def.promise();
+
+})();
+
+</script>
+
+</body>
+</html>
